@@ -31,3 +31,4 @@ Node *addAtBegining(FILE *fisier);
 Team teamInfo(FILE *fisier);
 Student studentInfo(FILE *fisier);
 void print(Node *head, FILE *fisier);
+void erase(Node **head);

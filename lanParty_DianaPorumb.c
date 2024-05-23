@@ -8,14 +8,34 @@ int main(int argc, char* argv[])
 {
     FILE *cerinte = fopen(argv[1], "r");
     FILE *date = fopen(argv[2], "r");
-    FILE *printare = fopen(argv[3], "w");
+    FILE *printare;
+    printare= fopen("r.out","wt");
+    /*if (cerinte == NULL)
+    {
+        puts("cerinte file error");
+        exit(1);
+    }
+
+    if (date == NULL)
+    {
+        puts("date file error");
+        exit(1);
+    }
+
+    if (printare == NULL)
+    {
+        puts("print file error");
+        exit(1);
+    }
+    After checking- arguments work as long as the c.in /d.in files are in the same folder as the code
+    */
     Node *head = NULL;
     int cNr =5, cerinta[5],teamNr;
-    for(int i = 1; i <= cNr; i++)
+    for(int i = 0; i < cNr; i++)
     {
         fscanf(cerinte, "%d", &cerinta[i]);
     }
-    if(cerinta[1] == 1)
+    if(cerinta[0] == 1)
     {
         int c;
         fscanf(date, "%d", &teamNr);            
@@ -27,5 +47,9 @@ int main(int argc, char* argv[])
         if(c <= cNr)
             print(head, printare);
     }
+    fclose(cerinte);
+    fclose(printare);
+    fclose(date);
+    erase(head);
     return 0;
 }

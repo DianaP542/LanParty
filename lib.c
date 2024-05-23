@@ -4,25 +4,26 @@
 #include <string.h>
 
 
-Node *addAtBegining(FILE *fisier)
+//code debugging log- all mallocs in function, still get segmentation fault
+Node *addAtBegining(FILE *fisier) //edited code from class course
 {
     Node *head = NULL;
-    Node *newNode = (Node*)malloc(sizeof(*newNode));
+    Node *newNode = (Node*)malloc(sizeof(*newNode)); 
     newNode->info = teamInfo(fisier);
-    newNode->next = *head;
-    *head = newNode;
+    newNode->next = head;
+    head = newNode;
     return head;
 }
 
-Team teamInfo(FILE *fisier)
+Team teamInfo(FILE *fisier) //reads information about the team
 {
     Team team;
     char *p = NULL;
-
+    char aux[51];
     fscanf(fisier, "%d", &team.studentNr);
-    team.name = (char*)malloc(50);
-    team.student = (Student*)malloc(team.studentNr * sizeof(Student));
-    fgets(aux, 50, f);
+    team.name = (char*)malloc(50); 
+    team.student = (Student*)malloc(team.studentNr * sizeof(Student)); 
+    fgets(aux, 50, fisier); //takes 50 characters and reputs the team name back together word by word
     p = strtok(aux, " ");
     if(p != NULL)
         strcpy(team.name, p);
@@ -30,7 +31,7 @@ Team teamInfo(FILE *fisier)
     while (p != NULL)
     {
         strcat(team.name, " ");
-        strcpy(team.name, p);
+        strcat(team.name, p);
         p = strtok(NULL, " ");
     }
     for(int i = 0; i < team.studentNr; i++)
@@ -38,26 +39,46 @@ Team teamInfo(FILE *fisier)
     return team;
 }
 
-Student studentInfo(FILE *fisier)
+Student studentInfo(FILE *fisier) //reads info about each student competing at LanParty
 {
     Student student;
     char aux[30];
 
-    fscanf(f, "%s", aux);
-    student.perName = (Student*)malloc(strlen(aux) * sizeof(Student));
+    fscanf(fisier, "%s", aux);
+    student.perName = (Student*)malloc(strlen(aux) * sizeof(Student));//uses an aux in order to have the exact number of characters needed to be allocated
     strcpy(student.perName, aux);
-    fscanf(f, "%s", aux);
+    fscanf(fisier, "%s", aux);
     student.famName = (Student*)malloc(strlen(aux) * sizeof(Student));
     strcpy(student.famName, aux);
-    fscanf(f, "%d", &student.perPoints);
+    fscanf(fisier, "%d", &student.perPoints);
     return student;
 }
 
-void print(Node *head, FILE *fisier)
+void print(Node *head, FILE *fisier) //simple printing function
 {
     while (head != NULL)
 	{
-		fprintf(f, "%s\n", head->info.name);
+		fprintf(fisier, "%s\n", head->info.name);
 		head = head->next;
 	}
+}
+
+void erase(Node **head) //deallocates memory for head list
+{
+    Node *current = *head;
+    while (current != NULL)
+    {
+        *head = current->next;
+        free(current->info.name);
+        
+        for (int i = 0; i < current->info.studentNr; i++)
+        {
+            free(current->info.student[i].perName);
+            free(current->info.student[i].famName);
+        }
+        free(current->info.student);
+        free(current);
+        current = *head;
+    }
+    *head = NULL;
 }
