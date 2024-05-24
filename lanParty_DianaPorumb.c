@@ -8,8 +8,9 @@ int main(int argc, char* argv[])
 {
     FILE *cerinte = fopen(argv[1], "r");
     FILE *date = fopen(argv[2], "r");
-    FILE *printare;
-    printare= fopen("r.out","wt");
+
+    //de uitat cum functioneaza checker-ul
+    FILE *printare = fopen(argv[3], "w");
     /*if (cerinte == NULL)
     {
         puts("cerinte file error");
@@ -35,7 +36,7 @@ int main(int argc, char* argv[])
     {
         fscanf(cerinte, "%d", &cerinta[i]);
     }
-    if(cerinta[0] == 1)
+    if(cerinta[0] == 1) //task 1
     {
         int c;
         fscanf(date, "%d", &teamNr);            
@@ -47,9 +48,15 @@ int main(int argc, char* argv[])
         if(c <= cNr)
             print(head, printare);
     }
+    if(cerinta[1] == 1) //task 2
+    {
+        nTeams(head);
+    }
     fclose(cerinte);
     fclose(printare);
     fclose(date);
-    erase(head);
+    
+    while(head!=NULL)
+        erase(head);
     return 0;
 }

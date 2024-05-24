@@ -66,19 +66,79 @@ void print(Node *head, FILE *fisier) //simple printing function
 void erase(Node **head) //deallocates memory for head list
 {
     Node *current = *head;
-    while (current != NULL)
+    *head = (*head)->next;
+    free(current->info.name);
+    for (int i = 0; i < current->info.studentNr; i++)
     {
-        *head = current->next;
-        free(current->info.name);
-        
-        for (int i = 0; i < current->info.studentNr; i++)
-        {
-            free(current->info.student[i].perName);
-            free(current->info.student[i].famName);
-        }
-        free(current->info.student);
-        free(current);
-        current = *head;
+        free(current->info.student[i].perName);
+        free(current->info.student[i].famName);
     }
-    *head = NULL;
+    free(current->info.student);
+    free(current);
+}
+
+//task 2
+int teamPointCount()
+{
+    Team team;
+    int ma=0;
+    for(int i=0;i<team.studentNr;i++)
+    {
+        ma=ma+team.student->perPoints;
+    }
+    ma=ma/team.studentNr;
+    return ma;
+}
+
+void delete(Node **head, int i) //deletes node
+{
+    Node *prev=*head;
+    for(int j=0;j<i;j++)
+    {
+            prev=prev->next;
+    }
+    Node *newNode=*prev->next;
+    prev->next=newNode->next;
+    free(newNode);
+}
+
+void worstTeam(Node **head) //finds the team with the least amount of points
+{
+    int min;
+    Node *newNode = (Node*)malloc(sizeof(*newNode));
+    newNode=*head;
+    min=newNode->info.teamPoints;
+    while(newNode != NULL)
+    {
+        newNode=newNode->next;
+        if(newNode->info.teamPoints < min)
+            min=newNode->info.teamPoints;
+    }
+    newNode=*head;
+    int i=0;
+    while(newNode != NULL)
+    {
+        if(newNode->info.teamPoints == min)
+        {
+            delete(head, i);
+            break;
+        }
+        newNode=newNode->next;
+        i++;
+    }
+}
+
+void nTeams(Node **head) //finds the number of temas needed to be deleted 
+{
+    int n=2;
+    while(n <= teamNr)
+    {
+        n=n*2;
+    }
+    n=n/2;
+    while(teamNr < n)
+    {
+        worstTeam(&head);
+        teamNr--;
+    }
 }
