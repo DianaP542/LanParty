@@ -31,9 +31,9 @@ Node *addAtBegining(FILE *fisier);
 Team teamInfo(FILE *fisier);
 Student studentInfo(FILE *fisier);
 void print(Node *head, FILE *fisier);
-void erase(Node **head);
+void erase(Team *team);
 //task 2
 int teamPointCount();
 void delete(Node **head, int i);
 void worstTeam(Node **head);
-void nTeams(Node **head);
+void nTeams(Node **head, int *i, int *teamNr);

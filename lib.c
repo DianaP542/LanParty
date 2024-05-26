@@ -45,10 +45,10 @@ Student studentInfo(FILE *fisier) //reads info about each student competing at L
     char aux[30];
 
     fscanf(fisier, "%s", aux);
-    student.perName = (Student*)malloc(strlen(aux) * sizeof(Student));//uses an aux in order to have the exact number of characters needed to be allocated
+    student.perName = (char*)malloc(strlen(aux) * sizeof(char));//uses an aux in order to have the exact number of characters needed to be allocated
     strcpy(student.perName, aux);
     fscanf(fisier, "%s", aux);
-    student.famName = (Student*)malloc(strlen(aux) * sizeof(Student));
+    student.famName = (char*)malloc(strlen(aux) * sizeof(char));
     strcpy(student.famName, aux);
     fscanf(fisier, "%d", &student.perPoints);
     return student;
@@ -63,18 +63,17 @@ void print(Node *head, FILE *fisier) //simple printing function
 	}
 }
 
-void erase(Node **head) //deallocates memory for head list
+void erase(Team *team) //deallocates memory for head list
 {
-    Node *current = *head;
-    *head = (*head)->next;
-    free(current->info.name);
-    for (int i = 0; i < current->info.studentNr; i++)
+    Team temp;
+    temp= *team;
+    free(temp.name);
+    for (int i = 0; i < team->studentNr ; i++)
     {
-        free(current->info.student[i].perName);
-        free(current->info.student[i].famName);
+        free(temp.student[i].perName);
+        free(temp.student[i].famName);
     }
-    free(current->info.student);
-    free(current);
+    free(temp.student);
 }
 
 //task 2
@@ -97,7 +96,7 @@ void delete(Node **head, int i) //deletes node
     {
             prev=prev->next;
     }
-    Node *newNode=*prev->next;
+    Node *newNode=prev->next;
     prev->next=newNode->next;
     free(newNode);
 }
@@ -128,17 +127,20 @@ void worstTeam(Node **head) //finds the team with the least amount of points
     }
 }
 
-void nTeams(Node **head) //finds the number of temas needed to be deleted 
+void nTeams(Node **head, int *i, int *teamNr) //finds the number of temas needed to be deleted 
 {
-    int n=2;
-    while(n <= teamNr)
+    int n = 2;
+    *i=1;
+    while(n <= *teamNr)
     {
-        n=n*2;
+        n = n*2;
+        *i++;
     }
-    n=n/2;
-    while(teamNr < n)
+    n = n/2;
+    *i--;
+    while(*teamNr < n)
     {
         worstTeam(&head);
-        teamNr--;
+        *teamNr--;
     }
 }

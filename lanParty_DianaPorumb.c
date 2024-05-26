@@ -28,7 +28,6 @@ int main(int argc, char* argv[])
         puts("print file error");
         exit(1);
     }
-    After checking- arguments work as long as the c.in /d.in files are in the same folder as the code
     */
     Node *head = NULL;
     int cNr =5, cerinta[5],teamNr;
@@ -38,25 +37,35 @@ int main(int argc, char* argv[])
     }
     if(cerinta[0] == 1) //task 1
     {
-        int c;
         fscanf(date, "%d", &teamNr);            
         for(int t = 0; t < teamNr; t++)
             head = addAtBegining(date);
-        for(c = 2; c <= cNr; c++)
-            if(cerinta[c] == 1)
-                break;
-        if(c <= cNr)
+        if(cerinta[1] == 0)
             print(head, printare);
     }
     if(cerinta[1] == 1) //task 2
     {
-        nTeams(head);
+        int np;
+        Node *newNode=head;
+        while (newNode !=NULL)
+        {
+            newNode->info.teamPoints=teamPointCount(newNode->info);
+            newNode=newNode->next;
+        }
+        nTeams(&head, &np, &teamNr);
+        print(head, printare);
     }
     fclose(cerinte);
     fclose(printare);
     fclose(date);
     
     while(head!=NULL)
-        erase(head);
+    {
+        Node *aux = head;
+        head=head->next;
+        erase(&aux->info);
+        free(aux);
+    }
+    free(head);  
     return 0;
 }
