@@ -8,8 +8,6 @@ int main(int argc, char* argv[])
 {
     FILE *cerinte = fopen(argv[1], "r");
     FILE *date = fopen(argv[2], "r");
-
-    //de uitat cum functioneaza checker-ul
     FILE *printare = fopen(argv[3], "w");
     /*if (cerinte == NULL)
     {
@@ -30,23 +28,30 @@ int main(int argc, char* argv[])
     }
     */
     Node *head = NULL;
-    int cNr =5, cerinta[5],teamNr;
-    for(int i = 0; i < cNr; i++)
+    int nrCerinte =5, cerinta[5],teamNr;
+    for(int i = 0; i < nrCerinte; i++)
     {
         fscanf(cerinte, "%d", &cerinta[i]);
     }
     if(cerinta[0] == 1) //task 1
     {
-        fscanf(date, "%d", &teamNr);          
+        fscanf(date, "%d", &teamNr);
         for(int t = 0; t < teamNr; t++)
             head = addAtBegining(date);
-        if(cerinta[1] == 0)
+        //if(cerinta[1] == 0)
             print(head, printare);
-        else
+        //else
+        int np;
         if(cerinta[1] == 1) //task 2
         {
-            int np;
+            
             Node *newNode=head;
+            if (newNode == NULL) {
+                printf( "Memory allocation failed for newNode in addAtBegining\n");
+            exit(EXIT_FAILURE);
+            }
+    
+            printf("Memory allocated successfully in task 2 main");
             while (newNode !=NULL)
             {
                 newNode->info.teamPoints=teamPointCount(newNode->info);
@@ -56,11 +61,15 @@ int main(int argc, char* argv[])
             print(head, printare);
             free(newNode);
         }
+        if(cerinta[2]==1) //task 3
+        {
+            Node *top= (Node*)malloc(sizeof(Node));
+            Matches(np, &teamNr, &head, &top, printare);
+        }
     }
     fclose(cerinte);
     fclose(printare);
     fclose(date);
-    
     while(head!=NULL)
     {
         Node *aux = head;
