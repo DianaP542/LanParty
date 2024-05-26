@@ -37,23 +37,25 @@ int main(int argc, char* argv[])
     }
     if(cerinta[0] == 1) //task 1
     {
-        fscanf(date, "%d", &teamNr);            
+        fscanf(date, "%d", &teamNr);          
         for(int t = 0; t < teamNr; t++)
             head = addAtBegining(date);
         if(cerinta[1] == 0)
             print(head, printare);
-    }
-    if(cerinta[1] == 1) //task 2
-    {
-        int np;
-        Node *newNode=head;
-        while (newNode !=NULL)
+        else
+        if(cerinta[1] == 1) //task 2
         {
-            newNode->info.teamPoints=teamPointCount(newNode->info);
-            newNode=newNode->next;
+            int np;
+            Node *newNode=head;
+            while (newNode !=NULL)
+            {
+                newNode->info.teamPoints=teamPointCount(newNode->info);
+                newNode=newNode->next;
+            }
+            nTeams(&head, &np, &teamNr);
+            print(head, printare);
+            free(newNode);
         }
-        nTeams(&head, &np, &teamNr);
-        print(head, printare);
     }
     fclose(cerinte);
     fclose(printare);

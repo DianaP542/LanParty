@@ -7,8 +7,8 @@
 //code debugging log- all mallocs in function, still get segmentation fault
 Node *addAtBegining(FILE *fisier) //edited code from class course
 {
-    Node *head = NULL;
-    Node *newNode = (Node*)malloc(sizeof(*newNode)); 
+    Node *head;
+    Node *newNode = (Node*)malloc(sizeof(*newNode));
     newNode->info = teamInfo(fisier);
     newNode->next = head;
     head = newNode;
@@ -58,7 +58,7 @@ void print(Node *head, FILE *fisier) //simple printing function
 {
     while (head != NULL)
 	{
-		fprintf(fisier, "%s\n", head->info.name);
+		fprintf(fisier, "%s", head->info.name);
 		head = head->next;
 	}
 }
@@ -140,7 +140,7 @@ void nTeams(Node **head, int *i, int *teamNr) //finds the number of temas needed
     *i--;
     while(*teamNr < n)
     {
-        worstTeam(&head);
+        worstTeam(head);
         *teamNr--;
     }
 }
