@@ -34,24 +34,17 @@ int main(int argc, char* argv[])
         fscanf(cerinte, "%d", &cerinta[i]);
     }
     if(cerinta[0] == 1) //task 1
-    {
+    {   
+        int np;
         fscanf(date, "%d", &teamNr);
         for(int t = 0; t < teamNr; t++)
             head = addAtBegining(date);
-        //if(cerinta[1] == 0)
+        if(cerinta[1] == 0)
             print(head, printare);
-        //else
-        int np;
+        else
         if(cerinta[1] == 1) //task 2
         {
-            
             Node *newNode=head;
-            if (newNode == NULL) {
-                printf( "Memory allocation failed for newNode in addAtBegining\n");
-            exit(EXIT_FAILURE);
-            }
-    
-            printf("Memory allocated successfully in task 2 main");
             while (newNode !=NULL)
             {
                 newNode->info.teamPoints=teamPointCount(newNode->info);
@@ -59,12 +52,25 @@ int main(int argc, char* argv[])
             }
             nTeams(&head, &np, &teamNr);
             print(head, printare);
-            free(newNode);
-        }
-        if(cerinta[2]==1) //task 3
-        {
-            Node *top= (Node*)malloc(sizeof(Node));
-            Matches(np, &teamNr, &head, &top, printare);
+            fprintf(printare, "\n");
+            if(cerinta[2]==1) //task 3
+            {
+                Node *top= (Node*)malloc(sizeof(Node));
+                Matches(np, &teamNr, &head, &top, printare);
+                fprintf(printare, "\n");
+                if(cerinta[3]==1) //task 4
+                {
+                    newNode = top;
+                    Arb *root=NULL;
+                    while(newNode !=NULL)
+                    {
+                        root=insert(root, newNode->info);
+                        newNode=newNode->next;
+                    }
+                    free(newNode);
+                    fprintf(printare, "\n");
+                }
+            }
         }
     }
     fclose(cerinte);

@@ -77,12 +77,13 @@ void erase(Team *team) //deallocates memory for head list
 }
 
 //task 2
-int teamPointCount(Team team)
+float teamPointCount(Team team)
 {
-    int ma=0;
+    float ma=0;
     for(int i=0;i<team.studentNr;i++)
     {
-        ma=ma+team.student->perPoints;
+        Student stud=team.student[i];
+        ma=ma+stud.perPoints;
     }
     ma=ma/team.studentNr;
     return ma;
@@ -111,36 +112,34 @@ void delete(Node **head, int i) //deletes node
 
 void worstTeam(Node **head) //finds the team with the least amount of points
 {
-    int min;
+    float min;
     Node *newNode = (Node*)malloc(sizeof(*newNode));
-    if (newNode == NULL) {
-        printf( "Memory allocation failed for newNode in addAtBegining\n");
-        exit(EXIT_FAILURE);
-    }
-    
-    printf("Memory allocated successfully in worstTeam");
-
     newNode=*head;
     min=newNode->info.teamPoints;
     while(newNode != NULL)
     {
-        printf("%d", min);
         newNode=newNode->next;
-        if(newNode->info.teamPoints < min)
-            min=newNode->info.teamPoints;
+        Team team;
+        team= newNode->info;
+        if(team.teamPoints < min)
+            min=team.teamPoints;
     }
     newNode=*head;
+    Node *aux= newNode;
     int i=0;
     while(newNode != NULL)
     {
-        if(newNode->info.teamPoints == min)
+        Team team;
+        team=newNode->info;
+        if(team.teamPoints == min)
         {
-            delete(head, i);
+            delete(newNode, i);
             break;
         }
         newNode=newNode->next;
         i++;
     }
+    *head= aux;
 }
 
 void nTeams(Node **head, int *i, int *teamNr) //finds the number of teams needed to be deleted 
@@ -266,12 +265,13 @@ void Matches(int np, int *teamNr, Node **head, Node **top, FILE *printare)
     Node *loseList = (Node*)malloc(sizeof(Node));
     for(int i = 0 ; i < np ; i++)
     {
-        fprintf(printare,"Runda %d", i);
-        Round(q, &winList, &loseList);
+        fprintf(printare,"\n--- ROUND NO:%d\n", i + 1);
+        Round(q, &winList, &loseList, printare);
+        fprintf(printare, "\nWINNERS OF ROUND NO:%d\n", i + 1);
         Node *newNode=winList;
         while (newNode != NULL)
         {
-            fprintf(printare, "Echipa %s castiga \n", newNode->info.name);
+            fprintf(printare, "%-34s-  %.2f\n", newNode->info.name, newNode->info.teamPoints);
             newNode=newNode->next;
         }
         free(newNode);
@@ -300,13 +300,14 @@ void Matches(int np, int *teamNr, Node **head, Node **top, FILE *printare)
     free(winList);
 }
 
-void Round(Queue *q, Node **winList, Node **loseList)
+void Round(Queue *q, Node **winList, Node **loseList, FILE *printare)
 {
     Team t1, t2;
     while(q->front != NULL)
         {
             t1=deQueue(q);
             t2=deQueue(q);
+            fprintf(printare,"%-33s-%33s\n", t1.name, t2.name);
             if(t1.teamPoints < t2.teamPoints)
             {
                 push(winList, t2);
@@ -326,4 +327,24 @@ void addPoints(Team *team)
 {
     for(int i = 0 ; i < team->studentNr ; i++)
         (*team).student->perPoints++;
+}
+
+//task 4
+Arb *new(Team team)
+{
+    Arb *newArb = (Arb*)malloc(sizeof(Arb));
+    newArb->info = team;
+    newArb->left=newArb->right=NULL;
+    return newArb;
+}
+
+Arb *insert(Arb *newArb, Team team)
+{
+    if(newArb == NULL)
+        return new(team);
+    if(team.teamPoints < newArb->info.teamPoints)
+        newArb->left = insert(newArb->left, team);
+    else if(team.teamPoints > newArb->info.teamPoints)
+        newArb->right=insert(newArb->right, team);
+    return newArb;
 }
