@@ -133,7 +133,7 @@ void worstTeam(Node **head) //finds the team with the least amount of points
         team=newNode->info;
         if(team.teamPoints == min)
         {
-            delete(newNode, i);
+            delete(&newNode, i);
             break;
         }
         newNode=newNode->next;
@@ -346,5 +346,22 @@ Arb *insert(Arb *newArb, Team team)
         newArb->left = insert(newArb->left, team);
     else if(team.teamPoints > newArb->info.teamPoints)
         newArb->right=insert(newArb->right, team);
+    else if(team.teamPoints == newArb->info.teamPoints)
+        if(strcmp(team.teamPoints, newArb->info.teamPoints)<0)
+            newArb->left=insert(newArb->left, team);
+        else
+            newArb->right=insert(newArb->right, team);
     return newArb;
 }
+
+void printArb(Arb *root, FILE *printare)
+{
+    if(root != NULL)
+    {
+        printArb(root->right, printare);
+        fprintf(printare, "%s", root->info.name);
+        printArb(root->left, printare);
+    }
+}
+
+//task 5

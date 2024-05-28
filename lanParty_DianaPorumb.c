@@ -66,6 +66,7 @@ int main(int argc, char* argv[])
                     {
                         root=insert(root, newNode->info);
                         newNode=newNode->next;
+                        printArb(root, printare);
                     }
                     free(newNode);
                     fprintf(printare, "\n");

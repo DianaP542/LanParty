@@ -66,3 +66,4 @@ void addPoints(Team *team);
 //task 4
 Arb* new(Team team);
 Arb* insert(Arb *newArb, Team team);
+void printArb(Arb *root, FILE *printare);
