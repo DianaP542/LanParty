@@ -11,3 +11,6 @@
   - In cerinta 2, se creeaza un nou camp pentru structura Team unde se stocheaza punctajul per total al echipei care se calculeaza intr-o functie separata numita teamPointCount.
 Functia nTeams gaseste numarul n, cea mai mare putere de 2, mai mica decat numarul de echipe si dupa asta apeleaza de teamNr-n ori functia wosrtTeam. Functia gaseste echipa cu punctajul minim si o sterge intr o alta functie.
   - In cerinta 3, se creeaza meciurile in functia Matches, care creeaza o coada si 2 stive,pune toate echipele in coada, gaseste castigatorul rundei intr-o alta functie, sterge pierzatori, reumple coada cu castigatori si repeta, salvand in acelasi timp echipele din top 8.
+
+  ## Completari
+  &emsp; La momentul predarii tema a rulat doar primele cerinte. Vor fi create/postate completari cu rezolvarea intregii teme atunci cand voi avea posibilitatea. 
